@@ -19,39 +19,39 @@ Second, assuming that it is possible for a given **wordlist** to be represented 
  
  Basically, all the logic here comes down to the realization that the fizz/buzz translation process is identical over **(mod 15)**. To understand this better, consider what happens if we apply the fizz/buzz translation to the numbers 1 -> 30.
  
-1
-2
-3  fizz
-4
-5  buzz
-6  fizz
-7 
-8
-9  fizz
-10 buzz
-11
-12 fizz
-13
-14
-15 fizzbuzz
+- 1
+- 2
+- 3  fizz
+- 4
+- 5  buzz
+- 6  fizz
+- 7 
+- 8
+- 9  fizz
+- 10 buzz
+- 11
+- 12 fizz
+- 13
+- 14
+- 15 fizzbuzz
 ---
-16
-17
-18 fizz
-19
-20 buzz
-21 fizz
-22 
-23
-24 fizz
-25 buzz
-26
-27 fizz
-28
-29
-30 fizzbuzz
+- 16
+- 17
+- 18 fizz
+- 19
+- 20 buzz
+- 21 fizz
+- 22 
+- 23
+- 24 fizz
+- 25 buzz
+- 26
+- 27 fizz
+- 28
+- 29
+- 30 fizzbuzz
 ---
-etc.
+- etc.
 
 Notice that for every 15 numbers in a sequence, the pattern of words *must* repeat itself exactly. Because every numberlist must be a contiguous sequence of positive integers, a wordlist that can be constructed must follow this pattern.
 
@@ -63,27 +63,29 @@ Furthermore, notice that the location of 'fizzbuzz' in the pattern never varies 
 
 ### Part 1 (Is a given wordlist possible?)
 
-From our reasoning above, we can answer this by determining if a given wordlist is a contiguous subsequence of this sequence (hereafter, **subpattern**):
+From our reasoning above, we just need to determine if a given wordlist is a contiguous subsequence (hereafter, **subpattern**) of this sequence:
+
 `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz', ...repeat forever...]` (hereafter, we will call this the **masterpattern**)
 
 If a given wordlist is a subpattern of the masterpattern, then the wordlist is constructable. If it is not a subpattern, then it is not constructable.
 
-##### Implementation
+#### Implementation
 
 Okay, that's all well and good, but how do we implement that in code? First, we can't have an infinite list (although it would be possible to do this with some sort of generator object). Second, how do we check if a given wordlist is a subpattern of the masterpattern?
  
-###### Infinity Issue
+##### Infinity Issue
  First, to get around the infinity issue, notice that we don't actually need our masterpattern to be infinitely long, it just needs to be *long enough* to show whether or not the wordlist is a subpattern. Because the masterpattern repeats every seventh element (the 'fizzbuzz' mark at 15), we just need to make our testing masterpattern **as long as the wordlist plus a bit more**. The extra "bit more" is so the wordlist can be allowed to "slide around" as we check to see if it's a subpattern or not. (To understand the necessity here, consider the list `['fizzbuzz', 'fizz']`. Definitely doable with `[15, 16, 17, 18]`, but if the masterpattern we tested against was only `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']`, we would get a false negative.)
  
 Consider the `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']` list as kind of building block. To get the base size, take the wordlist's length, divide by 7, and round up. Use that many building blocks to begin with. Then we need the "bit more": add an additional two (2) building blocks and I am quite confident that will be long enough to test against. (I actually think it's enough to just add one more building block as the "bit more", but since I haven't formally proven this, I'm going to go with being safe rather than sorry.)
 
-###### Check for Subpattern
+##### Check for Subpattern
 At first, we might be tempted to implement this by checking if a list has a "sublist" (subpattern). A little bit of Google seems to indicate that's not such a great option though. Instead, we can be a bit clever and convert both our wordlist and our testing masterpattern into strings via concatenation (see warning below). If the wordlist's string is contained within the masterpattern's string, then it is a subpattern, and conversely if it's not contained, it is not a subpattern.
   
   **Warning**: This works great, except that 'fizz' and 'buzz' when concatenated will make 'fizzbuzz'. This could cause issues. So instead, we need to create unique identifiers. Before converting the list into a concatenated string, we need to uniquely identify each "word". Use the following convention:
   - 'fizz'  --> a
   - 'buzz'  --> b
   - 'fizzbuzz' --> c
+  
   Work through the wordlist and the testing masterpattern list, swap as above, then string-ify them. Finally, check if the wordlist string is in the masterpattern string.
   
   
