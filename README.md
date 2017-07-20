@@ -9,13 +9,13 @@ For questions that rely on each other (Q2 on Q1, etc.), instead of referring to 
 ## Questions
 
 ### Question 1
-#####Part A
+##### Part A
 Given a list of positive numbers, write a function that prints the following
 "fizz" if number is divisible by 3
 "buzz" if number is divisible by 5
 "fizzbuzz" if number is divisible by 3 and 5
 
-#####Part B
+##### Part B
 How do I implement this without looping?
 
 
