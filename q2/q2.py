@@ -67,14 +67,28 @@ def willitfizzbuzz(wordlist):
     return abc_wordstring in masterpattern_abcstring  # We return this True/False answer to user.
 
 
-
-
-
-    # Above forms the core repeat of the fizzbuzz pattern (see README for more info).
-    # We will eventually assemble an appropriate number of these to test our wordlist against.
-    # However, we will do that assembly later on with string concatenation rather than list joins.
-
-
-test = ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz', 'buzz']
-
-print(willitfizzbuzz(test))
+# This function serves as a simple lookup in the case where the wordlist does NOT contain 'fizzbuzz'.
+# It is only intended for use inside of the final lookup function below.
+# See README for full explanation and discussion of how these values were found.
+# INPUT: a constructable wordlist that does NOT contain 'fizzbuzz', only 'fizz' and 'buzz'.
+# There is no error checking on this input! It's only expected to be run by another function that passes trusted inputs.
+# OUTPUT: a list of numbers. (Specifically, the shortest and earliest numberlist that will construct the wordlist.)
+def lookup_no_fizzbuzz(wordlist):
+    LOOKUP_DICT = {  # We'll do the lookup with a dictionary that has keys of strings representing the 9 options.
+        'fizz' : range(3, 4),  # Remember, `range` is exclusive of ending number.
+        'fizzbuzz' : range(9, 11),
+        'fizzbuzzfizz' : range(3, 7),
+        'fizzbuzzfizzfizz' : range(3, 10),
+        'fizzbuzzfizzfizzbuzz' : range(3, 11),
+        'fizzbuzzfizzfizzbuzzfizz' : range(3, 13),
+        'buzzfizzfizzbuzzfizz' : range(5, 13),
+        'fizzfizzbuzzfizz' : range(6, 13),
+        'buzzfizz' : range(5, 7)
+    }
+    wordstring = ''.join(wordlist)  # We join the wordlist into a single string so we can look up in dictionary.
+    # Sidenote: We don't have to worry about the abc stuff we did in last function, because there is no 'fizzbuzz'.
+    desired_range = LOOKUP_DICT[wordstring]  # Note that this is a range. In Python3, that is not a list.
+    return list(desired_range)  # Convert range into a numberlist just before returning.
+    # For testing, I used following code, going through all possible iterations of 'test' variable.
+    # test = ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz']
+    # print(lookup_no_fizzbuzz(test))

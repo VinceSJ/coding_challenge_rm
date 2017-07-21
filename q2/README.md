@@ -19,39 +19,39 @@ Second, assuming that it is possible for a given **wordlist** to be represented 
  
  Basically, all the logic here comes down to the realization that the fizz/buzz translation process is identical over **(mod 15)**. To understand this better, consider what happens if we apply the fizz/buzz translation to the numbers 1 -> 30.
  
-- 1
-- 2
-- 3  fizz
-- 4
-- 5  buzz
-- 6  fizz
-- 7 
-- 8
-- 9  fizz
-- 10 buzz
-- 11
-- 12 fizz
-- 13
-- 14
-- 15 fizzbuzz
+1.
+2.
+3.  fizz
+4.
+5.  buzz
+6.  fizz
+7. 
+8.
+9.  fizz
+10. buzz
+11.
+12. fizz
+13.
+14.
+15. fizzbuzz
 ---
-- 16
-- 17
-- 18 fizz
-- 19
-- 20 buzz
-- 21 fizz
-- 22 
-- 23
-- 24 fizz
-- 25 buzz
-- 26
-- 27 fizz
-- 28
-- 29
-- 30 fizzbuzz
+16.
+17.
+18. fizz
+19.
+20. buzz
+21. fizz
+22. 
+23.
+24. fizz
+25. buzz
+26.
+27. fizz
+28.
+29.
+30. fizzbuzz
 ---
-- etc.
+etc.
 
 Notice that for every 15 numbers in a sequence, the pattern of words *must* repeat itself exactly. Because every numberlist must be a contiguous sequence of positive integers, a wordlist that can be constructed must follow this pattern.
 
@@ -91,7 +91,29 @@ At first, we might be tempted to implement this by checking if a list has a "sub
   
   
 ### Part 2 (Finding the shortest numberlist)
-Going to do a bit more thinking on this part, but you can use 'fizzbuzz' as an anchor if it's in the wordlist. Lock first 'fizzbuzz' occurrence to #15, work backwards and forwards from there. (We would already have checked if the wordlist is possible via part 1's function).
+Assuming that the wordlist can actually be constructed into a numberlist, there are one of two possibilities: either the wordlist contains 'fizzbuzz' or it does not.
+
+##### Does NOT contain 'fizzbuzz' (inherently short)
+Remember, `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']` forms the building block of all constructable wordlists. Thus, if a given wordlist is constructable and does not contain 'fizzbuzz', it must be no more than six elements long. Furthermore, because it has to be a subpattern of that building block, there are actually just nine patterns in total that are possible.
+
+This means, with just nine patterns possible, we can make a lookup table. Not my most elegant work, but it's easy. Listed below are all the possible wordlists that do not contain 'fizzbuzz'. To the right of each is a `range` that will spit out the appropriate numberlist (remember, `range(3,6) = [3,4,5]`, we don't actually hit end number of range). These were figured by hand, but it's pretty fast and easy to do. Compare them to the fizz/buzz translation in "Major Realization" above to check work and see they are best picks.
+
+1. fizz `range(3, 4)`
+2. fizz, buzz `range(9, 11)`
+3. fizz, buzz, fizz `range(3, 7)`
+4. fizz, buzz, fizz, fizz `range(3, 10)`
+5. fizz, buzz, fizz, fizz, buzz `range(3, 11)`
+6. fizz, buzz, fizz, fizz, buzz, fizz `range(3, 13)`
+7. buzz, fizz, fizz, buzz, fizz `range(5, 13)`
+8. fizz, fizz, buzz, fizz `range(6, 13)`
+9. ~~fizz, buzz, fizz~~ *(same as #3)*
+10. buzz, fizz `range(5, 7)`
+11. ~~fizz~~ *(same as #1)*
+
+**Implementation:** This can be implemented pretty easily with a dictionary. Just remember that lists can't be used for lookup keys, so we have to use ~~tuples or~~ strings *(Ed: went with strings)*. Also, we must convert the wordlist we're checking into a matching type so we can then just use it as a key.
  
- In the case where 'fizzbuzz' is not contained in the wordlist, the wordlist has to be quite short. Because of this, I think there's like only ten or so options that can be constructed? Probably easiest to just build a bruteforce lookup table. Ain't terribly elegant, but almost certainly fastest.
+ 
+##### DOES contain 'fizzbuzz' (potentially very long)
+Going to do a bit more thinking on this part, but you can use 'fizzbuzz' as an anchor if it's in the wordlist. Lock first 'fizzbuzz' occurrence to #15, work backwards and forwards from there. (We would already have checked if the wordlist is possible via part 1's function).
+
 
