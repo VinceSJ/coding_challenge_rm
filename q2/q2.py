@@ -92,3 +92,13 @@ def lookup_no_fizzbuzz(wordlist):
     # For testing, I used following code, going through all possible iterations of 'test' variable.
     # test = ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz']
     # print(lookup_no_fizzbuzz(test))
+
+
+test = []
+
+n = 0
+
+for i in test:
+    n = n+1
+
+print(n)

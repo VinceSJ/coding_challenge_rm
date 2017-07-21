@@ -110,10 +110,16 @@ This means, with just nine patterns possible, we can make a lookup table. Not my
 10. buzz, fizz `range(5, 7)`
 11. ~~fizz~~ *(same as #1)*
 
-**Implementation:** This can be implemented pretty easily with a dictionary. Just remember that lists can't be used for lookup keys, so we have to use ~~tuples or~~ strings *(Ed: went with strings)*. Also, we must convert the wordlist we're checking into a matching type so we can then just use it as a key.
+This can be implemented pretty easily with a dictionary. Just remember that lists can't be used for lookup keys, so we have to use ~~tuples or~~ strings *(Ed: went with strings)*. Also, we must convert the wordlist we're checking into a matching type so we can then just use it as a key.
  
  
 ##### DOES contain 'fizzbuzz' (potentially very long)
-Going to do a bit more thinking on this part, but you can use 'fizzbuzz' as an anchor if it's in the wordlist. Lock first 'fizzbuzz' occurrence to #15, work backwards and forwards from there. (We would already have checked if the wordlist is possible via part 1's function).
+Because the wordlist contains 'fizzbuzz', the first instance of 'fizzbuzz' in the wordlist must occur at a number divisible by 15. Furthermore, since the pattern is identical by (mod 15), having that first 'fizzbuzz' occur at 15 will ultimately result in a numberlist that is the same length as if we chose a different number for the first 'fizzbuzz' (say, 30 or 45). Thus, since length ties go to the numberlists that start earlier, we should **always place the first 'fizzbuzz' at 15.
 
+This makes our first 'fizzbuzz' an anchor. It's at the number 15, we just need to work backwards to the start of the wordlist from there. We could do this with an algorithm, but it's so short (seven options only due to masterpattern), we'll just create a lookup table. (You can see the prep work done to figure this out in the file `experimentation_lookups.py`.)
 
+From there, we can count the total number of occurrences of 'fizzbuzz' in the word list. Each one of these will occur at a multiple of 15: first 'fizzbuzz' at 15, second at 30, third at 45, etc. Thus, if we know how many fizzbuzzes occur, the last will happen at that multiplied by 15. This gives us an ending anchor as well.
+
+Finally, we just need to know how many elements happen after the final 'fizzbuzz', and we can figure out how much farther it is the final number in the numberlist with another lookup (once again, seven options only due to masterpattern, prep work in same file as above).
+
+We know our first number and our last number, we just need to generate a numberlist and we're done!
