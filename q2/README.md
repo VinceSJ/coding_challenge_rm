@@ -94,21 +94,26 @@ At first, we might be tempted to implement this by checking if a list has a "sub
 Assuming that the wordlist can actually be constructed into a numberlist, there are one of two possibilities: either the wordlist contains 'fizzbuzz' or it does not.
 
 ##### Does NOT contain 'fizzbuzz' (inherently short)
-Remember, `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']` forms the building block of all constructable wordlists. Thus, if a given wordlist is constructable and does not contain 'fizzbuzz', it must be no more than six elements long. Furthermore, because it has to be a subpattern of that building block, there are actually just nine patterns in total that are possible.
+Remember, `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']` forms the building block of all constructable wordlists. Thus, if a given wordlist is constructable and does not contain 'fizzbuzz', it must be no more than six elements long. Furthermore, because it has to be a subpattern of that building block, there are actually ~~just nine patterns in total that are possible.~~ Whoops! Turns out there are 13 possible patterns! Went through naively the first time. Double-checked carefully, should be only 13, no more surprises.
 
-This means, with just nine patterns possible, we can make a lookup table. Not my most elegant work, but it's easy. Listed below are all the possible wordlists that do not contain 'fizzbuzz'. To the right of each is a `range` that will spit out the appropriate numberlist (remember, `range(3,6) = [3,4,5]`, we don't actually hit end number of range). These were figured by hand, but it's pretty fast and easy to do. Compare them to the fizz/buzz translation in "Major Realization" above to check work and see they are best picks.
+This means, with just ~~nine~~ thirteen patterns possible, we can make a lookup table. Not my most elegant work, but it's easy. Listed below are all the possible wordlists that do not contain 'fizzbuzz'. To the right of each is a `range` that will spit out the appropriate numberlist (remember, `range(3,6) = [3,4,5]`, we don't actually hit end number of range). These were figured by hand, but it's pretty fast and easy to do. Compare them to the fizz/buzz translation in "Major Realization" above to check work and see they are best picks.
 
 1. fizz `range(3, 4)`
+1. buzz `range(5, 6)`
 2. fizz, buzz `range(9, 11)`
+2. buzz, fizz `range(5, 7)`
 3. fizz, buzz, fizz `range(3, 7)`
+3. buzz, fizz, fizz `range(5, 10)`
+3. fizz, fizz, buzz `range(6, 11)` 
 4. fizz, buzz, fizz, fizz `range(3, 10)`
+4. buzz, fizz, fizz, buzz `range(5, 11)` 
+4. fizz, fizz, buzz, fizz `range(6, 13)`
 5. fizz, buzz, fizz, fizz, buzz `range(3, 11)`
+5. buzz, fizz, fizz, buzz, fizz `range(5, 13)`
 6. fizz, buzz, fizz, fizz, buzz, fizz `range(3, 13)`
-7. buzz, fizz, fizz, buzz, fizz `range(5, 13)`
-8. fizz, fizz, buzz, fizz `range(6, 13)`
-9. ~~fizz, buzz, fizz~~ *(same as #3)*
-10. buzz, fizz `range(5, 7)`
-11. ~~fizz~~ *(same as #1)*
+
+
+
 
 This can be implemented pretty easily with a dictionary. Just remember that lists can't be used for lookup keys, so we have to use ~~tuples or~~ strings *(Ed: went with strings)*. Also, we must convert the wordlist we're checking into a matching type so we can then just use it as a key.
  

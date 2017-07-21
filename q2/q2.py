@@ -60,8 +60,8 @@ def willitfizzbuzz(wordlist):
     # We have the totalblocknumber for how many building blocks to use in making the testing masterpattern.
     # Instead of converting the building block with code, since it never changes, we'll just do it by hand:
     buildingblock_string = 'abaabac'  # 'abaabac'  <--> ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']
-    # Concatenate a number of times equal to "bitmoreblocks" var above:
-    masterpattern_abcstring = buildingblock_string * bitmoreblocks  # The string we're looking for a subpattern in.
+    # Concatenate a number of times equal to "totalblocknumber" var above:
+    masterpattern_abcstring = buildingblock_string * totalblocknumber  # The string we're looking for a subpattern in.
 
     # Everything is ready, just need to see if the wordlist is a subpattern of masterpattern.
     return abc_wordstring in masterpattern_abcstring  # We return this True/False answer to user.
@@ -74,16 +74,20 @@ def willitfizzbuzz(wordlist):
 # There is no error checking on this input! It's only expected to be run by another function that passes trusted inputs.
 # OUTPUT: a list of numbers. (Specifically, the shortest and earliest numberlist that will construct the wordlist.)
 def lookup_no_fizzbuzz(wordlist):
-    LOOKUP_DICT = {  # We'll do the lookup with a dictionary that has keys of strings representing the 9 options.
+    LOOKUP_DICT = {  # We'll do the lookup with a dictionary that has keys of strings representing the 13 options.
         'fizz' : range(3, 4),  # Remember, `range` is exclusive of ending number.
+        'buzz' : range(5, 6),
         'fizzbuzz' : range(9, 11),
+        'buzzfizz': range(5, 7),
         'fizzbuzzfizz' : range(3, 7),
+        'buzzfizzfizz' : range(5, 10),
+        'fizzfizzbuzz' : range(6, 11),
         'fizzbuzzfizzfizz' : range(3, 10),
+        'buzzfizzfizzbuzz' : range(5, 11),
+        'fizzfizzbuzzfizz': range(6, 13),
         'fizzbuzzfizzfizzbuzz' : range(3, 11),
-        'fizzbuzzfizzfizzbuzzfizz' : range(3, 13),
-        'buzzfizzfizzbuzzfizz' : range(5, 13),
-        'fizzfizzbuzzfizz' : range(6, 13),
-        'buzzfizz' : range(5, 7)
+        'buzzfizzfizzbuzzfizz': range(5, 13),
+        'fizzbuzzfizzfizzbuzzfizz' : range(3, 13)
     }
     wordstring = ''.join(wordlist)  # We join the wordlist into a single string so we can look up in dictionary.
     # Sidenote: We don't have to worry about the abc stuff we did in last function, because there is no 'fizzbuzz'.
@@ -94,11 +98,69 @@ def lookup_no_fizzbuzz(wordlist):
     # print(lookup_no_fizzbuzz(test))
 
 
-test = []
+# This function looks at a given wordlist and returns either the shortest & earliest numberlist that constructs
+# the wordlist, or it returns an empty list if it is impossible to construct.
+# INPUT: a list of words containing only some mix of 'fizz', 'buzz', and 'fizzbuzz'.
+# There is basic error checking on this input. No promises, though. (function willitfizzbuzz raises error if bad input)
+# OUTPUT: a list (possibly empty) of numbers.
+# If list is empty, the wordlist is impossible to construct. If possible, returns shortest & earliest numberlist.
+def findnumberlist(wordlist):
+    # Three major sections.
+    # First determine is possible. If possible, branches into one of two sections based on if 'fizzbuzz' in wordlist.
+    if not willitfizzbuzz(wordlist):  # This triggers if we get False: the wordlist is not constructable.
+        return []  # When not constructable, we return an empty list to user.
+    if not 'fizzbuzz' in wordlist:  # If 'fizzbuzz' is not in the wordlist, we can do a lookup.
+        return lookup_no_fizzbuzz(wordlist)  # Uses function for lookup, returns list to user.
 
-n = 0
+    # At this point, we're guaranteed a constructable word that contains 'fizzbuzz'
+    # See the README for full explanation of logic and the experimentation_lookups script for lookup generation.
+    # We need to know two things: what the starting number and ending number of our numberlist will be.
+    # To work towards that, we need to know how many 'fizzbuzz' instances are in the wordlist,
+    # along with where the first 'fizzbuzz' happens and how many elements come after the last 'fizzbuzz'.
+    num_of_fizzbuzz = wordlist.count('fizzbuzz')  # Counts the number of 'fizzbuzz' elements.
+    first_fizzbuzz_index = wordlist.index('fizzbuzz')  # Takes advantage of fact that index method only returns first.
+    last_fizzbuzz_index = max(loc for loc, val in enumerate(wordlist) if val == 'fizzbuzz')  # See below.
+    # Above code produces the index of the last 'fizzbuzz' element.
+    # I snagged it off of Stack Overflow: https://stackoverflow.com/a/23816108
+    # While I didn't write the code structure, I understand how it works.
+    last_element_index = len(wordlist) - 1  # Remember that final index is one less than length.
+    num_of_elements_after_last_fb = last_element_index - last_fizzbuzz_index  # Difference in indices gives how many.
 
-for i in test:
-    n = n+1
+    # We now have all the tools ready, time to begin getting numbers. First, the starting number.
+    # We accomplish this with a lookup array figured out in the experimentation_lookup.py file.
+    START_LOOKUP = [15, 12, 10, 9, 6, 5, 3]  # Keyed to index of first 'fizzbuzz' occurrence.
+    start_number = START_LOOKUP[first_fizzbuzz_index]
+    # Next, we figure out what number the last 'fizzbuzz' occurs at. First is at 15, second at 30, etc.
+    last_fizzbuzz_num = num_of_fizzbuzz * 15  # Each goes by 15, so just multiply count by 15.
+    # We need to know how much past that to go, so we use a lookup array to find the delta (same file for reasoning):
+    DELTA_LOOKUP = [0, 3, 5, 6, 9, 10, 12]  # Keyed to number of elements after final 'fizzbuzz' occurrence.
+    delta = DELTA_LOOKUP[num_of_elements_after_last_fb]
+    # Use that with number for last 'fizzbuzz' to find the end_number:
+    end_number = last_fizzbuzz_num + delta
+    # Finally, we wrap things up and get this to the user.
+    numberlist_range = range(start_number, end_number + 1)  # Remember, this is a range, so we need to go one past end.
+    return list(numberlist_range)  # Want to return a list, so need to list() the range object because it's Python3.
 
-print(n)
+
+
+# Just showing off the final function a bit:
+test = ["fizz", "buzz"]
+print("Applying function to list:\n", "\t", test)
+print("Result of function:\n", "\t", findnumberlist(test), "\n")
+
+
+test = ["buzz", "fizz", "fizz", "buzz"]
+print("Applying function to list:\n", "\t", test)
+print("Result of function:\n", "\t", findnumberlist(test), "\n")
+
+test = ["buzz", "buzz"]
+print("Applying function to list:\n", "\t", test)
+print("Result of function:\n", "\t", findnumberlist(test), "\n")
+
+test = ['fizz', 'fizzbuzz']
+morepattern = ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']
+test.extend(morepattern)
+test.extend(morepattern)
+test.extend(['fizz', 'buzz'])
+print("Applying function to list:\n", "\t", test)
+print("Result of function:\n", "\t", findnumberlist(test), "\n")
