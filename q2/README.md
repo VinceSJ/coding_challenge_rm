@@ -56,6 +56,7 @@ Second, assuming that it is possible for a given **wordlist** to be represented 
 Notice that for every 15 numbers in a sequence, the pattern of words *must* repeat itself exactly. Because every numberlist must be a contiguous sequence of positive integers, a wordlist that can be constructed must follow this pattern.
 
 More precisely, **every constructable wordlist must be a contiguous subsequence of this sequence:**
+
 `['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz', ...repeat forever...]`
 
 Furthermore, notice that the location of 'fizzbuzz' in the pattern never varies compared to the other elements. While 'fizz' and 'buzz' can be closer or further, 'fizzbuzz' is relatively fixed since the list repeats based on (mod 15) and 'fizzbuzz' appears at 0 (mod 15). We will use this fact to our advantage when dealing with wordlists containing 'fizzbuzz' when it comes time to construct a numberlist.
