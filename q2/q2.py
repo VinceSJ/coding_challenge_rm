@@ -57,6 +57,15 @@ def willitfizzbuzz(wordlist):
     bitmoreblocks = 2  # Could be changed if testing indicates an issue with current value.
     totalblocknumber = baseblocknumber + bitmoreblocks  # Number of building blocks to use in making masterpattern.
 
+    # We have the totalblocknumber for how many building blocks to use in making the testing masterpattern.
+    # Instead of converting the building block with code, since it never changes, we'll just do it by hand:
+    buildingblock_string = 'abaabac'  # 'abaabac'  <--> ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz']
+    # Concatenate a number of times equal to "bitmoreblocks" var above:
+    masterpattern_abcstring = buildingblock_string * bitmoreblocks  # The string we're looking for a subpattern in.
+
+    # Everything is ready, just need to see if the wordlist is a subpattern of masterpattern.
+    return abc_wordstring in masterpattern_abcstring  # We return this True/False answer to user.
+
 
 
 
@@ -66,6 +75,6 @@ def willitfizzbuzz(wordlist):
     # However, we will do that assembly later on with string concatenation rather than list joins.
 
 
-test = ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz', 'fizz']
+test = ['fizz', 'buzz', 'fizz', 'fizz', 'buzz', 'fizz', 'fizzbuzz', 'buzz']
 
-willitfizzbuzz(test)
+print(willitfizzbuzz(test))
