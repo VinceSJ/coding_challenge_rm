@@ -1,6 +1,10 @@
-# Stuff about Question 3
+# Stuff about Question 3 & 4
 
-### Task Statement
+Since so much of what happens in Q3 directly connects to Q4, figured it was better to just hit them together or at least keep the work in a single folder.
+
+------
+
+### Q3: Task Statement
 Build an API with the technology of your choice. Parse the contents of the provided CSV file props.csv and serve the results as a JSON object at the endpoint '/data'
 The API results must contain only properties in California, and contain the following:
 - PROP_NAME
@@ -13,8 +17,14 @@ The API results must contain only properties in California, and contain the foll
 
 You are free to use data stores of your choice.
 
+### Q4: Task Statement
+Using the frontend tools of your choice, build out an application to cansume the API you built in Q1 and display the results in a table.
+
+
+-----
 
 ## Working Log / Thoughts
+###Q3
 I see this task as basically breaking into four major components:
 1. Read in and parse the CSV file.
 2. Take that information and manipulate it.
@@ -28,6 +38,8 @@ At the moment, the CSV file we're reading is small enough (under 50KB) that we c
 We'll want some way to manage each of our property objects, so let's just manage it ~~by associating each proprty with its MSA_ID.~~ (~~Pretty sure those are unique...~~ *self, make sure to check MSA_ID is unique!*  **Yay self!** Checked, and... **they're not unique**.) Probably a good idea to have them associated with that ID anyway.
 
 Wheulp. Looks like we'll need something else to associate them with. I guess it could also just be an array of objects, but that seems so *untidy*... Could just iterate through. Property 1, then 2, etc. Oooh, how about we append a sequential number to the MSA_ID? Then again, maybe the MSA_ID doesn't matter at all? Eh, I guess an array would be fine...?
+
+Ah, wait, poking around the file, I now realize that PROP_ID might be the unique one. Let's go check...  Yay! **PROP_ID** is unique! You can run the `check_uniqueness` script on any future CSV file if you think that uniqueness was just a fluke or you're worried it has become no longer unique.
 
 
 
