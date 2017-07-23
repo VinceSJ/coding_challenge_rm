@@ -3,7 +3,8 @@
 # This is a playground for creating the data that will eventually get output as JSON.
 # Desired structure is a dictionary of dictionaries:
 # First level is PROP_ID as keys, with values being dictionaries:
-    # Second level is dictionaries that have key-value pairs for - PROP_NAME
+    # Second level is dictionaries that have key-value pairs for
+        # - PROP_NAME
         # - ADDRESS
         # - CITY
         # - STATE_ID
@@ -45,7 +46,7 @@ def info_exists_encoded_list_parser(info_exists_encoded_listing):
     if not starts_filled:  # If first column was empty, we need to indicate that count of nothing now.
         match_status_count_list.append(0)  # There was a lack of fill in first column, mark it in our list.
     for status_list in grouped_by_existence:  # Go through our grouped list from above.
-        match_status_count_list.append( len(status_list) )  # Count number of elements in each group, append count.
+        match_status_count_list.append(len(status_list))  # Count number of elements in each group, append count.
     # Did a quick test, printed the match_status_count_list results on a few test inputs, works fine.
 
     # Now we have what we need to encode our finished string and return it to user
@@ -57,7 +58,7 @@ def info_exists_encoded_list_parser(info_exists_encoded_listing):
 
 
 # Context manager for CSV file.
-with open('props.csv', 'rt')  as csv_in:  # Read in the properties CSV (in this folder, I sure hope) as text.
+with open('props.csv', 'rt') as csv_in:  # Read in the properties CSV (in this folder, I sure hope) as text.
     infodump = csv.DictReader(csv_in)  # Slurp up the file into infodump, a CSV object.
     datarows = [row for row in infodump]  # Create list of dicts, where each dict is a row and has keys of column heads.
 # The thing we have our info in is 'datarows'.
@@ -69,6 +70,7 @@ top_level_dict = {}  # Initialize an empty dictionary.
 for row in datarows:
     if row['STATE_ID'] == 'ca':  # Only do the work on California properties.
         building_dict = {}  # The second level dictionary where all info about this property goes.
+        building_dict['PROP_NAME'] = row['PROP_NAME']  # Insert property name.
         building_dict['ADDRESS'] = row['ADDRESS']  # Insert address value.
         building_dict['CITY'] = row['CITY']  # Insert city value.
         building_dict['STATE_ID'] = row['STATE_ID']  # Insert state value, which is 'ca', but whatever, extensible.

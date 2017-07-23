@@ -47,6 +47,8 @@ Ah, wait, poking around the file, I now realize that PROP_ID might be the unique
 
 Good news, STATE_ID field in CSV is all lower caps, so we can just match to string 'ca', no worries about alternative versions for California.
 
+Realized a possible issue with format of MISSING_DATA_ENCODING. A decoding process would very likely assume first value indicates a run of filled columns, but it is possible that the first value could be empty (does not appear in CSV, so an edge case, but conceivable). As such, should have a 0 placed as first value in string if first column is empty to indicate empty at start and that next number is run of missing fields. Spec added to Q3 task statement at top.
+
 
 
 #### Learning JSON
