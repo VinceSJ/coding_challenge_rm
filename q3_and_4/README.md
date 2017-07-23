@@ -13,7 +13,8 @@ The API results must contain only properties in California, and contain the foll
 - STATE_ID
 - ZIP
 - MISSING_FIELD_COUNT (number of fields in a record that is missing data)
-- MISSING_DATA_ENCODING - **[modified, per email]** a string where each number, delimited by spaces (`' '`), indicates consecutive columns with and without data, e.g. [a,b,c,,,d,e] will be `3 2 2` (3 columns with data followed by 2 columns with missing data followed by 2 columns with data)
+- MISSING_DATA_ENCODING - **[modified, per email]** a string where each number, delimited by spaces (`' '`), indicates consecutive columns with and without data, e.g. [a,b,c,,,d,e] will be `3 2 2` (3 columns with data followed by 2 columns with missing data followed by 2 columns with data).  
+**[another spec addition]** While working, I realized issues could pop up in encoding if first column was blank (since likely a decoder would assume first value is always existing info). This does not occur in CSV, but just in case I wrote in that if first column is blank, it begins with a `0` to show lack of info at start, e.g. [ , b, c, d, , , g, h] would encode as `0 1 3 2 2`
 
 You are free to use data stores of your choice.
 
