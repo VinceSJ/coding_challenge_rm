@@ -24,7 +24,10 @@ Using the frontend tools of your choice, build out an application to cansume the
 -----
 
 ## Working Log / Thoughts
-###Q3
+
+**Note to reader:** Feel free to poke around in here, but it's somewhat stream of consciousness. Mostly exists for me to think through planning and what I'm doing.
+
+### Q3
 I see this task as basically breaking into four major components:
 1. Read in and parse the CSV file.
 2. Take that information and manipulate it.
@@ -40,6 +43,8 @@ We'll want some way to manage each of our property objects, so let's just manage
 Wheulp. Looks like we'll need something else to associate them with. I guess it could also just be an array of objects, but that seems so *untidy*... Could just iterate through. Property 1, then 2, etc. Oooh, how about we append a sequential number to the MSA_ID? Then again, maybe the MSA_ID doesn't matter at all? Eh, I guess an array would be fine...?
 
 Ah, wait, poking around the file, I now realize that PROP_ID might be the unique one. Let's go check...  Yay! **PROP_ID** is unique! You can run the `check_uniqueness` script on any future CSV file if you think that uniqueness was just a fluke or you're worried it has become no longer unique.
+
+Good news, STATE_ID field in CSV is all lower caps, so we can just match to string 'ca', no worries about alternative versions for California.
 
 
 
