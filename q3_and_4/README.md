@@ -3,6 +3,12 @@
 Since so much of what happens in Q3 directly connects to Q4, figured it was better to just hit them together or at least keep the work in a single folder.
 
 ------
+## Notes on Running
+There are two different answer files in here: `q3.py` and `q4.py`.
+
+Each runs a Flask framework. If you just want to see the JSON call, run `q3` and navigate to `localhost:4747/data`. If you want to see the finished, interpreted table, run `q3` **and** `q4` both, then navigate to `localhost:8000/table`. 
+
+------
 
 ### Q3: Task Statement
 Build an API with the technology of your choice. Parse the contents of the provided CSV file props.csv and serve the results as a JSON object at the endpoint '/data'
@@ -49,7 +55,4 @@ Good news, STATE_ID field in CSV is all lower caps, so we can just match to stri
 
 Realized a possible issue with format of MISSING_DATA_ENCODING. A decoding process would very likely assume first value indicates a run of filled columns, but it is possible that the first value could be empty (does not appear in CSV, so an edge case, but conceivable). As such, should have a 0 placed as first value in string if first column is empty to indicate empty at start and that next number is run of missing fields. Spec added to Q3 task statement at top.
 
-
-
-#### Learning JSON
-Uhhh... So, I'll be frank, I have very little experience with JSON. So you'll find a file in here called `gitgud_learning_json.py`, possibly also some output files written as `gitgud_OtherStuff` -- these form the playground where you can see some of my experimentation with the library, etc.
+For consuming the JSON produced for Q3, I just put together a separate Flask instance that refers to it. Originally was going to have it in the same Flask instance, but couldn't figure out an easy way to have it refer back to itself with the API call to `/data`, so I figured it was easier to just run two Flask instances instead and have them talk to each other.

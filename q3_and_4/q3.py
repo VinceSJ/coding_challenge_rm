@@ -19,17 +19,13 @@
 #  of info at start, e.g. [ , b, c, d, , , g, h] would encode as `0 1 3 2 2`
 #
 # You are free to use data stores of your choice.
-#
-#
-# ### Q4: Task Statement
-# Using the frontend tools of your choice, build out an application to cansume the API you
-# built in Q1 and display the results in a table.
 
 
 import csv  # For reading CSV.
 import itertools  # Helps in defining function info_exists_encoded_list_parser below.
     # Imported for "groupby", which allows us to easily break up a list based on changes.
 import flask  # Framework for serving JSON and results page.
+import requests  # For grabbing JSON via API call.
 
 
 ##################
@@ -153,4 +149,10 @@ def props_API_call():
     return flask.json.jsonify(props_dict)  # Have Flask JSON-ify it, then hand it off to the requester.
 
 
-app.run(port=8000, debug=True)  # Run it locally for testing.
+@app.route('/test')  # This is a testing call, not working on API pull for JSON, generating via function call.
+def test_table_template():
+    props_dict = props_csv_parse_to_dict('props.csv')
+    return flask.render_template('table_template.html', props_dict=props_dict)
+
+
+app.run(port=4747, debug=True)  # Run it locally for testing.

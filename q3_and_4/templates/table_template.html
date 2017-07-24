@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Properties in California</title>
+    <!--Just throw stylesheet in HTML for ease. -->
+    <style>
+        table { text-align: center;
+                border-collapse: collapse;
+                border-spacing: 0;
+                margin: 10px auto 20px;
+                }
+
+        tr:nth-of-type(odd) { background-color: rgb(255,255,255); }
+        tr:nth-of-type(even) { background-color: rgb(230, 230, 230); }
+
+        td:nth-of-type(1) {background-color: rgb(120, 120, 150);}
+
+        thead.holdfast tr {background-color: rgb(200,230,200);
+              }
+
+        td, th { border: 1px solid black;
+             padding: 5px 10px;
+             }
+
+    </style>
+</head>
+
+
+<body>
+	<h1>Property Listing for California</h1>
+    <table>
+        <thead class="holdfast">
+        <tr>
+            <th>Property ID</th>
+            <th>Property Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>ZIP</th>
+            <th>Missing Fields</th>
+            <th>Missing Data Encoding</th>
+        </tr>
+        </thead>
+	{% for prop in props_dict %}
+	<tr>
+        <td>{{ prop }}</td>  <!--This one produces PROP_ID value-->
+		<td>{{ props_dict[prop].PROP_NAME }}</td>
+        <td>{{ props_dict[prop].ADDRESS }}</td>
+        <td>{{ props_dict[prop].CITY }}</td>
+        <td>{{ props_dict[prop].STATE_ID }}</td>
+        <td>{{ props_dict[prop].ZIP }}</td>
+        <td>{{ props_dict[prop].MISSING_FIELD_COUNT }}</td>
+        <td>{{ props_dict[prop].MISSING_DATA_ENCODING }}</td>
+	</tr>
+	{% endfor %}
+    </table>
+</body>
+</html>
+
