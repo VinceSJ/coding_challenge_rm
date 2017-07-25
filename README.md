@@ -1,11 +1,16 @@
 # Coding challenge for RM
 This repo contains answers to the interview questions sent by Andrew, done by me, Vincent.
 
-Look inside each folder (q1, etc.) for a Python script that accomplishes the task set by each question. For unit tests and questions with multiple parts, you can find those extra bits inside each appropriate folder.
+Look inside each folder (q1, etc.) for a Python script that accomplishes the task set by each question. **Naming convention**: Q1 -> `q1.py`, etc. Folders may also contain additional material such as Readme, supporting files, and/or prep/experimentation.
+
+**Unit tests**: For Q1 and Q2, you can find unit tests for the work done. They are in the appropriate folder and named as `test_q(#).py`.
 
 For questions that rely on each other (Q2 on Q1, etc.), instead of referring to code in other scripts [the right way], I'm just going with the quick and dirty method of copy-pasting the pertinent parts. ~~Or wholesale copying the JSON file produced in Q3 into the directory for Q4.~~ I figured that would be okay for a quick test situation like this, but if you want otherwise, let me know and I'll abide.
 
-**Addendum, after the fact:** The above didn't really happen in practice. Very little direct code re-use. I might still go on to do some more extensive tests for Q1 and Q2, and I could see Q2's tests requiring such, but that's about it. (Also, I was mistaken about Q3: misread it at first and thought I was supposed to *write* a JSON file, not serve it. So that part definitely did not happen.) 
+**Addendum, after the fact:** The above didn't really happen in practice. Very little direct code re-use. I might still go on to do some more extensive tests for Q1 and Q2, and I could see Q2's tests requiring such, but that's about it. (Also, I was mistaken about Q3: misread it at first and thought I was supposed to *write* a JSON file, not serve it. So that part definitely did not happen.)
+
+#### Python 3 Note:
+All the development and testing was done in Python3. There are some print() statements that use Python3 only syntax in there, but if commented out, I think everything else will work with Python2. No promises though, haven't had the chance to test.
 
 
 ## Questions
