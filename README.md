@@ -24,6 +24,10 @@ Given a list of positive numbers, write a function that prints the following
 
 ##### Part B
 How do I implement this without looping?
+(*I did it with **recursion**.)*
+
+##### [Non-existent Part C]
+*(This was not in the original, but I took another crack at it with **NumPy and vectorizing**, trying to figure out a different way to avoid for loops.)*
 
 
 ### Question 2 [original] -- **deprecated**
